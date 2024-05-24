@@ -31,8 +31,8 @@
               <v-row dense>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_name"
-                    label="User Name*"
+                    v-model="editedItem.employee_name"
+                    label="employee Name*"
                     prepend-icon="mdi-account"
                     required
                     dense
@@ -41,7 +41,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_email"
+                    v-model="editedItem.employee_email"
                     label="Email*"
                     prepend-icon="mdi-email"
                     required
@@ -51,7 +51,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_address"
+                    v-model="editedItem.employee_address"
                     label="Address"
                     prepend-icon="mdi-map-marker"
                     required
@@ -61,7 +61,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_contact_number"
+                    v-model="editedItem.employee_contact_number"
                     label="Contact Number"
                     prepend-icon="mdi-phone"
                     required
@@ -71,7 +71,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_birthdate"
+                    v-model="editedItem.employee_birthdate"
                     label="Birthdate"
                     type="date"
                     prepend-icon="mdi-calendar"
@@ -82,7 +82,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select
-                    v-model="editedItem.user_department"
+                    v-model="editedItem.employee_department"
                     :items="['Kitchen', 'Human Resources', 'Cashier']"
                     label="Department"
                     prepend-icon="mdi-office-building"
@@ -93,7 +93,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-text-field
-                    v-model="editedItem.user_salary"
+                    v-model="editedItem.employee_salary"
                     label="Salary"
                     prepend-icon="mdi-currency-php"
                     required
@@ -103,7 +103,7 @@
                 </v-col>
                 <v-col cols="12" sm="6">
                   <v-select
-                    v-model="editedItem.user_status"
+                    v-model="editedItem.employee_status"
                     :items="['PAID', 'UNPAID', 'PENDING']"
                     label="Status"
                     prepend-icon="mdi-checkbox-marked-circle-outline"
@@ -135,12 +135,12 @@
     >
       <template v-slot:item="{ item }">
         <tr>
-          <td>{{ item.user_id }}</td>
-          <td>{{ item.user_name }}</td>
-          <td>{{ item.user_department }}</td>
-          <td>{{ item.user_contact_number }}</td>
-          <td>{{ item.user_salary }}</td>
-          <td>{{ item.user_status }}</td>
+          <td>{{ item.id }}</td>
+          <td>{{ item.employee_name }}</td>
+          <td>{{ item.employee_department }}</td>
+          <td>{{ item.employee_contact_number }}</td>
+          <td>{{ item.employee_salary }}</td>
+          <td>{{ item.employee_status }}</td>
           <td>
             <v-icon class="me-2" size="small" color="black" @click="openSalaryDialog(item)">mdi-information</v-icon>
             <v-icon class="me-2" size="small" color="black" @click="editUser(item)">mdi-pencil</v-icon>
@@ -163,7 +163,7 @@
             <v-row dense>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="editedItem.user_name"
+                  v-model="editedItem.employee_name"
                   label="Employee Name*"
                   prepend-icon="mdi-account"
                   required
@@ -173,7 +173,7 @@
               </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="editedItem.user_contact_number"
+                  v-model="editedItem.employee_contact_number"
                   label="Contact Number*"
                   prepend-icon="mdi-phone"
                   required
@@ -182,19 +182,18 @@
                 ></v-text-field>
               </v-col>
               <v-col cols="12" sm="6">
-                  <v-select
-                    v-model="editedItem.user_department"
-                    :items="['Kitchen', 'Human Resources', 'Cashier']"
+                  <v-text-field
+                    v-model="editedItem.employee_department"
                     label="Department"
                     prepend-icon="mdi-office-building"
                     required
                     dense
                     hide-details
-                  ></v-select>
+                  ></v-text-field>
                 </v-col>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="editedItem.user_salary"
+                  v-model="editedItem.employee_salary"
                   label="Salary*"
                   prepend-icon="mdi-currency-php"
                   required
@@ -203,15 +202,14 @@
                 ></v-text-field>
               </v-col>
                <v-col cols="12" sm="6">
-                <v-select
-                  v-model="editedItem.user_status"
-                  :items="['UNPAID', 'PAID', 'PENDING']"
+                <v-text-field
+                  v-model="editedItem.employee_status"
                   label="Status"
                   prepend-icon="mdi-checkbox-marked-circle-outline"
                   required
                   dense
                   hide-details
-                ></v-select>
+                ></v-text-field>
               </v-col>
             </v-row>
           </v-container>
@@ -243,12 +241,12 @@
                 >
                   <template v-slot:item="{ item }">
                     <tr>
-                      <td>{{ item.user_id }}</td>
-                      <td>{{ item.user_name }}</td>
-                      <td>{{ item.user_department }}</td>
-                      <td>{{ item.user_salary }}</td>
-                      <td>{{ item.user_status }}</td>
-                      <td>{{ item.user_date_given }}</td>
+                      <td>{{ item.id }}</td>
+                      <td>{{ item.employee_name }}</td>
+                      <td>{{ item.employee_department }}</td>
+                      <td>{{ item.employee_salary }}</td>
+                      <td>{{ item.employee_status }}</td>
+                      <td>{{ item.employee_date_given }}</td>
                     </tr>
                   </template>
                 </v-data-table>
@@ -272,6 +270,8 @@
 
 
 <script>
+import axios from '/src/axios.js';
+
 export default {
   data() {
     return {
@@ -280,80 +280,83 @@ export default {
       salaryDialog: false,
       search: '',
       editedItem: {
-        user_name: '',
-        user_email: '',
-        user_address: '',
-        user_contact_number: '',
-        user_birthdate: '',
-        user_department: '',
-        user_salary: '',
-        user_status: '',
+        employee_name: '',
+        employee_email: '',
+        employee_address: '',
+        employee_contact_number: '',
+        employee_birthdate: '',
+        employee_department: '',
+        employee_salary: '',
+        employee_status: '',
       },
       headers: [
-        { title: 'Employee ID', align: 'start', key: 'user_id' },
-        { title: 'Employee Name', align: 'start', key: 'user_name' },
-        { title: 'Department', align: 'start', key: 'user_department' },
-        { title: 'Contact Number', key: 'user_contact_number' },
-        { title: 'Salary', key: 'user_salary' },
-        { title: 'Status', key: 'user_status' },
+        { title: 'Employee ID', align: 'start', key: 'id' },
+        { title: 'Employee Name', align: 'start', key: 'employee_name' },
+        { title: 'Department', align: 'start', key: 'employee_department' },
+        { title: 'Contact Number', key: 'employee_contact_number' },
+        { title: 'Salary', key: 'employee_salary' },
+        { title: 'Status', key: 'employee_status' },
         { title: 'Actions', sortable: false },
       ],
       salaryHeaders: [
-        { title: 'Employee ID', align: 'start', key: 'user_id'},
-        { title: 'Employee Name', align: 'start', key: 'user_name'},
-        { title: 'Department', align: 'start', key: 'user_department'},
-        { title: 'Salary', key: 'user_salary'},
-        { title: 'Status', key: 'user_status'},
-        { title: 'DATE GIVEN', key: 'user_date_given'}
+        { title: 'Employee ID', align: 'start', key: 'employee_id'},
+        { title: 'Employee Name', align: 'start', key: 'employee_name'},
+        { title: 'Department', align: 'start', key: 'employee_department'},
+        { title: 'Salary', key: 'employee_salary'},
+        { title: 'Status', key: 'employee_status'},
+        { title: 'DATE GIVEN', key: 'employee_date_given'}
       ],
-      salaryHistory: [
-        {
-          user_id: '1',
-          user_name: 'Ferdinand Espiritu',
-          user_department: 'Kitchen',
-          user_salary: '10,000',
-          user_status: 'PAID',
-          user_date_given: '05/13/2024'
-        },
-        {
-          user_id: '1',
-          user_name: 'Ferdinand Espiritu',
-          user_department: 'Kitchen',
-          user_salary: '90,000',
-          user_status: 'PAID',
-          user_date_given: '05/21/2024',
-        },
-        {
-          user_id: '2',
-          user_name: 'Denmark Lobo',
-          user_department: 'Cashier',
-          user_salary: '21,000',
-          user_status: 'PAID',
-          user_date_given: '05/13/2024'
-        },
-      ],
-      filteredSalaryHistory: [],
-      employee: [
-        {
-          user_id: '1',
-          user_name: 'Ferdinand Espiritu',
-          user_department: 'Kitchen',
-          user_contact_number: '09668109204',
-          user_salary: '90,000',
-          user_status: 'PENDING',
-        },
-        {
-          user_id: '2',
-          user_name: 'Denmark Lobo',
-          user_department: 'Cashier',
-          user_contact_number: '09668109204',
-          user_salary: '21,000',
-          user_status: 'PENDING',
-        },
-      ],
+      employee: [],
+
+
+      // salaryHistory: [
+      //   {
+      //     user_id: '1',
+      //     user_name: 'Ferdinand Espiritu',
+      //     user_department: 'Kitchen',
+      //     user_salary: '10,000',
+      //     user_status: 'PAID',
+      //     user_date_given: '05/13/2024'
+      //   },
+      //   {
+      //     user_id: '1',
+      //     user_name: 'Ferdinand Espiritu',
+      //     user_department: 'Kitchen',
+      //     user_salary: '90,000',
+      //     user_status: 'PAID',
+      //     user_date_given: '05/21/2024',
+      //   },
+      //   {
+      //     user_id: '2',
+      //     user_name: 'Denmark Lobo',
+      //     user_department: 'Cashier',
+      //     user_salary: '21,000',
+      //     user_status: 'PAID',
+      //     user_date_given: '05/13/2024'
+      //   },
+      // ],
+      // filteredSalaryHistory: [],
+
     };
   },
+
+   mounted() {
+    this.fetchEmployee();
+  },
+
   methods: {
+    fetchEmployee() {
+      axios.get('/employees')
+        .then(response => {
+          this.employee = response.data.employees;
+        })
+        .catch(error => {
+          console.error('Error fetching employee:', error);
+        });
+    },
+
+
+
     openDialog() {
       this.dialog = true;
     },
@@ -361,11 +364,50 @@ export default {
       this.dialog = false;
     },
     saveNewUser() {
-      const newId = this.employee.length + 1;
-      const newUser = { ...this.editedItem, user_id: newId.toString() };
-      this.employee.push(newUser);
-      this.closeDialog();
-      this.resetForm();
+      console.log('Saving new employee...');
+
+      const { employee_name, employee_email, employee_address, employee_contact_number, employee_birthdate, employee_department, employee_salary, employee_status } = this.editedItem;
+
+      // Validate if all required fields are filled
+      if (!employee_name || !employee_email || !employee_address || !employee_contact_number || !employee_birthdate || !employee_department || !employee_salary || !employee_status) {
+        alert('Please fill in all required fields.');
+        return;
+      }
+
+      // Generate a new employee ID
+      const newEmployeeId = this.employee.length ? (parseInt(this.employee[this.employee.length - 1].id) + 1).toString() : '1';
+
+      // Create a new employee object
+      const newEmployee = {
+        id: newEmployeeId,
+        employee_name,
+        employee_email,
+        employee_address,
+        employee_contact_number,
+        employee_birthdate,
+        employee_department,
+        employee_salary,
+        employee_status,
+      };
+
+      // Make an Axios POST request to save the new employee
+      axios.post('/employees', newEmployee)
+        .then(response => {
+          // Handle success response
+          console.log('Employee saved successfully:', response.data.employees);
+          
+          // Add the new employee to the employee array
+          this.employee.push(response.data.employees);
+
+          // Close the dialog and reset the form
+          this.closeDialog();
+          this.resetForm(); // You need to implement this method if it's not already defined
+        })
+        .catch(error => {
+          // Handle error
+          console.error('Error saving employee:', error);
+          alert('Failed to save employee. Please try again later.');
+        });
     },
     resetForm() {
       this.editedItem = {

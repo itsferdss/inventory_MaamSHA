@@ -65,7 +65,7 @@
       <!--Content of Table-->
       <template v-slot:item="{ item }">
         <tr>
-          <td>{{ item.expense_id }}</td>
+          <td>{{ item.id }}</td>
           <td>{{ item.expense_amount }}</td>
           <td>{{ item.expense_category }}</td>
           <td>{{ item.expense_type }}</td>
@@ -130,6 +130,8 @@
 </template>
 
 <script>
+import axios from '/src/axios.js';
+
 export default {
   data() {
     return {
@@ -137,15 +139,6 @@ export default {
       dialog: false,
       moreInfoDialog: false,
       editedItem: {
-        user_name: '',
-        user_email: '',
-        user_address: '',
-        user_contact_number: '',
-        user_birthdate: '',
-        user_department: '',
-        user_salary: '',
-        user_status: '',
-        expense_id: '',
         expense_amount: '',
         expense_category: '',
         expense_type: '',
@@ -153,7 +146,7 @@ export default {
       },
 
       headers: [
-        { title: 'Expense ID', align: 'start', key: 'expense_id' },
+        { title: 'ID', align: 'start', key: 'id' },
         { title: 'Expense Amount', align: 'start', key: 'expense_amount' },
         { title: 'Expense Category', align: 'start', key: 'expense_category' },
         { title: 'Expense Type', key: 'expense_type' },
@@ -161,40 +154,26 @@ export default {
         { title: 'Actions', sortable: false },
       ],
 
-      expense: [
-        {
-          expense_id: '1',
-          expense_amount: '10,000',
-          expense_category: 'Salary',
-          expense_type: 'Cash',
-          expense_date: '05/13/2003',
-          user_id: '1',
-        },
-        {
-          expense_id: '2',
-          expense_amount: '10,000',
-          expense_category: 'Credit',
-          expense_type: 'Card',
-          expense_date: '05/13/2020',
-          user_id: '',
-        },
-      ],
-      employee: [
-        {
-          user_id: '1',
-          user_name: 'Ferdinand Espiritu',
-          user_department: 'Kitchen',
-          user_contact_number: '09668109204',
-          user_salary: '90,000',
-          user_status: 'PAID',
-        },
-        
-      ],
+      expense: [],
+      employee: [],
+
       selectedExpense: null,
       selectedUser: null,
     };
   },
+  mounted() {
+    this.fetchExpenses();
+  },
   methods: {
+     fetchExpenses() {
+      axios.get('/expenses')
+        .then(response => {
+          this.expense = response.data.expenses;
+        })
+        .catch(error => {
+          console.error('Error fetching expenses:', error);
+        });
+    },
     openDialog() {
       this.dialog = true;
     },
@@ -202,28 +181,52 @@ export default {
       this.dialog = false;
     },
     saveNewExpense() {
-    const { expense_amount, expense_category, expense_type, expense_date, user_id } = this.editedItem;
+  console.log('Saving new expense...');
 
-    if (!expense_amount || !expense_category || !expense_type || !expense_date) {
-      alert('Please fill in all required fields.');
-      return;
-    }
+  const { expense_amount, expense_category, expense_type, expense_date, user_id } = this.editedItem;
 
-    const newExpenseId = this.expense.length ? (parseInt(this.expense[this.expense.length - 1].expense_id) + 1).toString() : '1';
+  // Validate if all required fields are filled
+  if (!expense_amount || !expense_category || !expense_type || !expense_date) {
+    alert('Please fill in all required fields.');
+    return;
+  }
 
-    const newExpense = {
-      expense_id: newExpenseId,
-      expense_amount,
-      expense_category,
-      expense_type,
-      expense_date,
-      user_id: user_id || '',
-    };
+  // Generate a new expense ID
+  const newExpenseId = this.expense.length ? (parseInt(this.expense[this.expense.length - 1].id) + 1).toString() : '1';
 
-    this.expense.push(newExpense);
-    this.closeDialog();
-    this.resetForm();
-    },
+  // Create a new expense object
+  const newExpense = {
+    id: newExpenseId,
+    expense_amount,
+    expense_category,
+    expense_type,
+    expense_date,
+    user_id: user_id || '', // Assuming user_id can be empty
+  };
+
+  // Make an Axios POST request to save the new expense
+  axios.post('/expenses', newExpense)
+    .then(response => {
+      // Handle success response
+      console.log('Expense saved successfully:', response.data);
+      
+      // Add the new expense to the expense array
+      this.expense.push(response.data);
+
+      // Close the dialog and reset the form
+      this.closeDialog();
+      this.resetForm(); // You need to implement this method if it's not already defined
+    })
+    .catch(error => {
+      // Handle error
+      console.error('Error saving expense:', error);
+      alert('Failed to save expense. Please try again later.');
+    });
+},
+
+  resetForm(){
+    
+  },
     deleteExpense(item) {
     // Confirm deletion
     if (confirm(`Are you sure you want to delete the expense with ID ${item.expense_id}?`)) {
