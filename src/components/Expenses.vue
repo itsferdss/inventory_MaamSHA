@@ -49,7 +49,7 @@
 
           <v-card-actions>
             <v-btn color="black" text @click="closeDialog">Cancel</v-btn>
-            <v-btn color="black" text @click="saveNewExpense">Save User</v-btn>
+            <v-btn color="black" text @click="saveNewExpense">Save</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
